@@ -41,6 +41,8 @@ const StyledIcon = styled(ExpandMore)<{isFacilitator: boolean}>(({isFacilitator}
 
 const labelLookup = {
   [SprintPokerDefaults.SERVICE_FIELD_COMMENT]: SprintPokerDefaults.SERVICE_FIELD_COMMENT_LABEL,
+  [SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED]:
+    SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED_LABEL,
   [SprintPokerDefaults.SERVICE_FIELD_NULL]: SprintPokerDefaults.SERVICE_FIELD_NULL_LABEL
 }
 
@@ -87,6 +89,7 @@ const JiraFieldDimensionDropdown = (props: Props) => {
 
   const validFields = [
     SprintPokerDefaults.SERVICE_FIELD_COMMENT,
+    SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED,
     SprintPokerDefaults.SERVICE_FIELD_NULL,
     ...possibleEstimationFields.map(({fieldName}) => fieldName)
   ]

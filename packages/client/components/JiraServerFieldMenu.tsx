@@ -68,8 +68,10 @@ const JiraServerFieldMenu = (props: Props) => {
     if (possibleEstimationFieldNames.length === 0) return undefined
     if (serviceFieldName === SprintPokerDefaults.SERVICE_FIELD_COMMENT)
       return possibleEstimationFieldNames.length + 1
-    if (serviceFieldName === SprintPokerDefaults.SERVICE_FIELD_NULL)
+    if (serviceFieldName === SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED)
       return possibleEstimationFieldNames.length + 2
+    if (serviceFieldName === SprintPokerDefaults.SERVICE_FIELD_NULL)
+      return possibleEstimationFieldNames.length + 3
     const idx = possibleEstimationFieldNames.indexOf(serviceFieldName)
     return idx === -1 ? undefined : idx
   }, [serviceFieldName, possibleEstimationFieldNames])
@@ -109,6 +111,11 @@ const JiraServerFieldMenu = (props: Props) => {
         key={'__comment'}
         label={SprintPokerDefaults.SERVICE_FIELD_COMMENT_LABEL}
         onClick={handleClick(SprintPokerDefaults.SERVICE_FIELD_COMMENT)}
+      />
+      <MenuItem
+        key={'__detailedComment'}
+        label={SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED_LABEL}
+        onClick={handleClick(SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED)}
       />
       <MenuItem
         key={'__null'}

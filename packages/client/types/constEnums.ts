@@ -483,6 +483,8 @@ export const enum SprintPokerDefaults {
   AZURE_DEVOPS_EFFORT_LABEL = 'Effort',
   SERVICE_FIELD_COMMENT = '__comment',
   SERVICE_FIELD_COMMENT_LABEL = 'As Comment',
+  SERVICE_FIELD_COMMENT_DETAILED = '__detailedComment',
+  SERVICE_FIELD_COMMENT_DETAILED_LABEL = 'As Detailed Comment',
   SERVICE_FIELD_NULL = '',
   SERVICE_FIELD_NULL_LABEL = 'Do Not Update',
   GITHUB_DEFAULT_QUERY = 'is:issue is:open sort:updated involves:@me',

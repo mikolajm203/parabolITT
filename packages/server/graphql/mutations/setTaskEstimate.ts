@@ -132,6 +132,7 @@ const setTaskEstimate = {
         const {possibleEstimationFields} = jiraIssue
         const validFieldIds = [
           SprintPokerDefaults.SERVICE_FIELD_COMMENT,
+          SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED,
           SprintPokerDefaults.SERVICE_FIELD_NULL,
           ...possibleEstimationFields.map(({fieldId}) => fieldId)
         ]
@@ -251,6 +252,32 @@ const setTaskEstimate = {
           const res = await manager.addScoreComment(
             dimensionName,
             value || '<None>',
+            meetingName,
+            discussionURL,
+            issueId
+          )
+
+          if (res instanceof Error) {
+            errorMessage = res.message
+            break
+          }
+        } else if (fieldId === SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED) {
+          const scores = stage.scores
+
+          const usersScores = await Promise.all(
+            scores.map(async (score) => {
+              const user = await dataLoader.get('users').loadNonNull(score.userId)
+              return {
+                points: score.label,
+                username: user.preferredName
+              }
+            })
+          )
+
+          const res = await manager.addDetailedScoreComment(
+            dimensionName,
+            value || '<None>',
+            usersScores || '<None>',
             meetingName,
             discussionURL,
             issueId

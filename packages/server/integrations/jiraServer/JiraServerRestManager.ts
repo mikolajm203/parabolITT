@@ -341,6 +341,27 @@ export default class JiraServerRestManager implements TaskIntegrationManager {
     _Powered by [Parabol|${ExternalLinks.GETTING_STARTED_SPRINT_POKER}]_`
   }
 
+  private makeDetailedScoreComment(
+    dimensionName: string,
+    finalScore: string,
+    usersScores: any[],
+    meetingName: string,
+    discussionURL: string
+  ) {
+    let individualVotes = 'Individual votes:\n'
+    usersScores.forEach((score) => {
+      individualVotes += `${score.username}: ${score.points}\n`
+    })
+
+    return `*${dimensionName}: ${finalScore}*
+        ---
+        ${individualVotes}
+        ---
+        [See the discussion|${discussionURL}] in ${meetingName}
+        
+        _Powered by [Parabol|${ExternalLinks.GETTING_STARTED_SPRINT_POKER}]_`
+  }
+
   async addCreatedBySomeoneElseComment(
     viewerName: string,
     assigneeName: string,
@@ -364,6 +385,28 @@ export default class JiraServerRestManager implements TaskIntegrationManager {
     remoteIssueId: string
   ) {
     const comment = this.makeScoreComment(dimensionName, finalScore, meetingName, discussionURL)
+    const res = await this.addComment(comment, remoteIssueId)
+    if (res instanceof Error) {
+      return res
+    }
+    return res.id
+  }
+
+  async addDetailedScoreComment(
+    dimensionName: string,
+    finalScore: string,
+    usersScores: any,
+    meetingName: string,
+    discussionURL: string,
+    remoteIssueId: string
+  ) {
+    const comment = this.makeDetailedScoreComment(
+      dimensionName,
+      finalScore,
+      usersScores,
+      meetingName,
+      discussionURL
+    )
     const res = await this.addComment(comment, remoteIssueId)
     if (res instanceof Error) {
       return res

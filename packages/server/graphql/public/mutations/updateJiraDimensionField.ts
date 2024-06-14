@@ -12,6 +12,7 @@ const getJiraField = async (jiraIssue: JiraIssue, fieldId: string) => {
   // differently and can't be found on Jira fields list
   const customFields = [
     SprintPokerDefaults.SERVICE_FIELD_COMMENT,
+    SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED,
     SprintPokerDefaults.SERVICE_FIELD_NULL
   ]
   if (customFields.includes(fieldId as any)) {
