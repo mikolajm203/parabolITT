@@ -51,6 +51,7 @@ const updateJiraServerDimensionField: MutationResolvers['updateJiraServerDimensi
   let fieldType: string
   if (
     fieldName === SprintPokerDefaults.SERVICE_FIELD_NULL ||
+    fieldName === SprintPokerDefaults.SERVICE_FIELD_COMMENT_DETAILED ||
     fieldName === SprintPokerDefaults.SERVICE_FIELD_COMMENT
   ) {
     fieldId = fieldName
