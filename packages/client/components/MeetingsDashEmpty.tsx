@@ -3,6 +3,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {commitLocalUpdate} from 'relay-runtime'
 import {Breakpoint} from '~/types/constEnums'
+import {extractNameFromPreferredName} from '~/utils/extractNameFromPreferredName'
+import {extractRoleFromPreferredName} from '~/utils/extractRoleFromPreferredName'
 import makeMinWidthMediaQuery from '~/utils/makeMinWidthMediaQuery'
 import Atmosphere from '../Atmosphere'
 import useAtmosphere from '../hooks/useAtmosphere'
@@ -53,9 +55,11 @@ const MeetingsDashEmpty = (props: Props) => {
   const {name, message, isTeamFilterSelected} = props
   return (
     <Section>
-      <Heading>{`Hi ${name},`}</Heading>
+      <Heading>{`Hi ${extractNameFromPreferredName(name)},`}</Heading>
       <Copy>
-        {message}
+        {extractRoleFromPreferredName(name) !== ''
+          ? message
+          : 'Before joining any of the meetings, make sure to update your data and role in profile page!\n'}
         {isTeamFilterSelected ? (
           <>
             <Link
