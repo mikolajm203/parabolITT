@@ -5,6 +5,7 @@ import JiraServerIssueId from '~/shared/gqlIds/JiraServerIssueId'
 import {ExternalLinks} from '~/types/constEnums'
 import composeJQL from '~/utils/composeJQL'
 import splitDraftContent from '~/utils/draftjs/splitDraftContent'
+import {extractRoleFromPreferredName} from '~/utils/extractRoleFromPreferredName'
 import {IGetTeamMemberIntegrationAuthQueryResult} from '../../postgres/queries/generated/getTeamMemberIntegrationAuthQuery'
 import {IntegrationProviderJiraServer} from '../../postgres/queries/getIntegrationProvidersByIds'
 import {CreateTaskResponse, TaskIntegrationManager} from '../TaskIntegrationManagerFactory'
@@ -348,15 +349,49 @@ export default class JiraServerRestManager implements TaskIntegrationManager {
     meetingName: string,
     discussionURL: string
   ) {
-    let individualVotes = 'Individual votes:\n'
+    let individualVotes = '\nIndividual votes:\n'
+    usersScores.sort(function (a, b) {
+      return a.username.localeCompare(b.username)
+    })
     usersScores.forEach((score) => {
-      individualVotes += `${score.username}: ${score.points}\n`
+      individualVotes += `${extractRoleFromPreferredName(score.username) ? score.username : '? | ' + score.username}: ${score.points}\n`
     })
 
+    // Individual votes:
+    // DEV | Mikołaj Bejnar: 2
+    // DEV | Robert Lewandowski: 5
+    // TEST | Wojtek Szczęsny: 3
+
+    // const voteMap = usersScores.reduce(function(map, usersScore) {
+    //   const role = extractRoleFromPreferredName(usersScore.username)
+    //   if (map[role]) {
+    //     map[role].push(usersScore)
+    //   } else {
+    //     map[role] = [usersScore]
+    //   }
+    //   return map;
+    // }, {});
+    //
+    // let individualVotes = ''
+    // for (const role in voteMap) {
+    //   individualVotes += `\n--- ${role ? role : 'No role'} ---`;
+    //   voteMap[role].forEach((score: any) => {
+    //     individualVotes += `\n${extractNameFromPreferredName(score.username)}: ${score.points}`
+    //   })
+    //   individualVotes += '\n'
+    // }
+
+    // — DEV —
+    // Robert Lewandowski: 5
+    // Mikołaj Bejnar: 2
+    //
+    // — TEST —
+    // Wojtek Szczęsny: 3
+
     return `*${dimensionName}: ${finalScore}*
-        ---
+    
         ${individualVotes}
-        ---
+
         [See the discussion|${discussionURL}] in ${meetingName}
         
         _Powered by [Parabol|${ExternalLinks.GETTING_STARTED_SPRINT_POKER}]_`

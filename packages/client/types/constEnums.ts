@@ -527,3 +527,15 @@ export const enum EmptyMeetingViewMessage {
   NO_ACTIVE_MEETINGS_ON_THE_TEAM = `Looks like you have no upcoming meetings on this team.`,
   NO_SEARCH_RESULTS_ON_THE_TEAM = `Sorry, we could not find any meetings that matched with your query on this team.`
 }
+
+export const enum UserRoles {
+  USER_ROLE_DEFAULT_SLUG = '',
+  USER_ROLE_DEVELOPER_SLUG = 'DEV',
+  USER_ROLE_TESTER_SLUG = 'TEST',
+  USER_ROLE_PROJECT_MANAGER_SLUG = 'PM',
+
+  USER_ROLE_DEFAULT_LABEL = 'No role',
+  USER_ROLE_DEVELOPER_LABEL = 'Developer',
+  USER_ROLE_TESTER_LABEL = 'Tester',
+  USER_ROLE_PROJECT_MANAGER_LABEL = 'Project Manager'
+}
